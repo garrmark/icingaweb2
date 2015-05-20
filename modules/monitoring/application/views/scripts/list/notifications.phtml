@@ -25,13 +25,16 @@ if (count($notifications) === 0) {
         if (isset($notification->service_description)) {
             $isService = true;
             $stateName = Service::getStateText($notification->notification_state);
+            $stateDisplayName = Service::getStateText($notification->notification_state, true);
         } else {
             $isService = false;
             $stateName = Host::getStateText($notification->notification_state);
+            $stateDisplayName = Host::getStateText($notification->notification_state, true);
         }
     ?>
         <tr class="state <?= $stateName ?>">
             <td class="state">
+                <strong><?= $stateDisplayName ?></strong><br />
                 <?= $this->dateTimeRenderer($notification->notification_start_time)->render(
                     $this->translate('on %s', 'datetime'),
                     $this->translate('at %s', 'time'),
