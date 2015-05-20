@@ -10,7 +10,8 @@ class NotificationQuery extends IdoQuery
             'notification_output'           => 'n.output',
             'notification_start_time'       => 'UNIX_TIMESTAMP(n.start_time)',
             'notification_state'            => 'n.state',
-            'notification_object_id'        => 'n.object_id'
+            'notification_object_id'        => 'n.object_id',
+            'notification_reason'           => 'n.notification_reason'
         ),
         'objects' => array(
             'host'                          => 'o.name1 COLLATE latin1_general_ci',
