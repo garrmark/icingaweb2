@@ -125,10 +125,17 @@ class ConfigController extends Controller
                 'url'   => 'config/modules'
             ))
             ->activate('modules');
-        $this->view->modules = Icinga::app()->getModuleManager()->select()
+        $this->view->modules = $modules = Icinga::app()->getModuleManager()->select()
             ->from('modules')
             ->order('enabled', 'desc')
             ->order('name');
+        $modulesByState = array();
+        foreach ($modules as $module) {
+            $modulesByState[$module->enabled ? (
+                $module->loaded ? 'enabled' : 'fail_load'
+            ) : 'disabled'][] = $module;
+        }
+        $this->view->modulesByState = $modulesByState;
         $this->setupLimitControl();
         $this->setupPaginationControl($this->view->modules);
         // TODO: Not working

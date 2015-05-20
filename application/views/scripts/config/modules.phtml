@@ -8,20 +8,20 @@
 </div>
 <?php endif ?>
 <div class="content">
+<?php
+$labels = array(
+    'enabled'   => $this->translate('Enabled modules'),
+    'disabled'  => $this->translate('Disabled modules'),
+    'fail_load' => $this->translate('Enabled modules which have failed to load')
+);
+foreach ($modulesByState as $state => $modules) { ?>
+  <h1><?= $labels[$state] ?></h1>
   <table class="action" data-base-target="_next">
     <tbody>
     <?php foreach ($modules as $module): ?>
       <tr>
         <td>
-          <?php if ($module->enabled && $module->loaded) {
-            echo $this->icon('thumbs-up', sprintf($this->translate('Module %s is enabled'), $module->name));
-          } elseif (! $module->enabled) {
-            echo $this->icon('thumbs-down', sprintf($this->translate('Module %s is disabled'), $module->name));
-          } else { // ! $module->loaded
-            echo $this->icon('thumbs-down', sprintf($this->translate('Module %s has failed to load'), $module->name));
-          }
-
-          echo $this->qlink(
+          <?= $this->qlink(
             $module->name,
             'config/module/',
             array('name' => $module->name),
@@ -32,4 +32,5 @@
     <?php endforeach ?>
     </tbody>
   </table>
+<?php } ?>
 </div>
