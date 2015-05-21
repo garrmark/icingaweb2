@@ -18,6 +18,17 @@ if (count($notifications) === 0) {
     echo $this->translate('No notifications found matching the filter') . '</div>';
     return;
 }
+
+$notificationReasons = array(
+    1 => $this->translate('Problem acknowledgement'),
+    $this->translate('Flapping started'),
+    $this->translate('Flapping stopped'),
+    $this->translate('Flapping was disabled'),
+    $this->translate('Downtime started'),
+    $this->translate('Downtime ended'),
+    $this->translate('Downtime was cancelled'),
+    99 => $this->translate('Custom notification')
+);
 ?>
     <table data-base-target="_next" class="action">
     <tbody>
@@ -31,6 +42,8 @@ if (count($notifications) === 0) {
             $stateName = Host::getStateText($notification->notification_state);
             $stateDisplayName = Host::getStateText($notification->notification_state, true);
         }
+
+        $reason = (int) $notification->notification_reason;
     ?>
         <tr class="state <?= $stateName ?>">
             <td class="state">
@@ -41,6 +54,11 @@ if (count($notifications) === 0) {
                     $this->translate('%s ago', 'timespan')
                 ) ?>
             </td>
+            <td class="notification-reason"><?= $reason === 0 ? (
+                $notification->notification_state === 0
+                    ? $this->translate('Recovery')
+                    : $this->translate('Problem')
+            ) : $notificationReasons[$reason] ?></td>
             <td style="font-size: 0.8em">
                 <?php if ($isService): ?>
                     <?= $this->icon('service', $this->translate('Service')); ?>

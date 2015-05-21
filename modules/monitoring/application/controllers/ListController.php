@@ -288,6 +288,7 @@ class Monitoring_ListController extends Controller
             'notification_contact_name',
             'notification_start_time',
             'notification_state',
+            'notification_reason',
             'host_display_name',
             'service_display_name'
         ));
