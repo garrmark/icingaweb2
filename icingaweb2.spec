@@ -17,13 +17,14 @@ Packager:       Icinga Team <info@icinga.org>
 %if 0%{?fedora} || 0%{?rhel}
 %define wwwconfigdir    %{_sysconfdir}/httpd/conf.d
 %define wwwuser         apache
+%if "%{?php}" == ""
 %if 0%{?rhel} == 5
 %define php     php53
-%define php_cli php53-cli
 %else
 %define php     php
-%define php_cli php-cli
 %endif
+%endif
+%define php_cli %{php}-cli
 %if 0%{?rhel} == 6
 %define zend php-ZendFramework
 %else
@@ -35,13 +36,14 @@ Packager:       Icinga Team <info@icinga.org>
 %define wwwconfigdir    %{_sysconfdir}/apache2/conf.d
 %define wwwuser         wwwrun
 %define zend            php5-ZendFramework
+%if "%{?php}" == ""
 %if 0%{?suse_version} == 1110
 %define php php53
-Requires: apache2-mod_php53
 %else
 %define php php5
-Requires: apache2-mod_php5
 %endif
+%endif
+Requires: apache2-mod_%{php}
 %endif
 
 %{?fedora:Requires(pre):        shadow-utils}
