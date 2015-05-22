@@ -52,10 +52,7 @@ if (count($hosts) === 0) {
 
       <!-- Host / Status / Output -->
       <td>
-        <?php if ($host->host_icon_image && ! preg_match('/[\'"]/', $host->host_icon_image)): ?>
-        <?= $this->icon($this->resolveMacros($host->host_icon_image, $host)) ?>
-        <?php endif ?>
-        <?= implode(' ', $this->hostFlags($host)) ?>
+        <div class="noicons">
         <?= $this->qlink(
           $host->host_display_name,
           $hostLink,
@@ -91,6 +88,13 @@ if (count($hosts) === 0) {
         ) ?>)</span>
         <?php endif ?>
         <p class="pluginoutput"><?= $this->escape($this->ellipsis($host->host_output, 10000)) ?></p>
+        </div>
+        <div class="icons">
+          <?php if ($host->host_icon_image && ! preg_match('/[\'"]/', $host->host_icon_image)) {
+            echo $this->icon($this->resolveMacros($host->host_icon_image, $host));
+          } ?>
+          <?= implode(' ', $this->hostFlags($host)) ?>
+        </div>
       </td>
       <?php foreach($this->addColumns as $col): ?>
       <td><?= $this->escape($host->$col) ?></td>
