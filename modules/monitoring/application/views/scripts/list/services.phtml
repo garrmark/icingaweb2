@@ -57,29 +57,46 @@ if (count($services) === 0) {
       </td>
 
       <td>
-        <div class="sparkline-box"><?= $this->perfdata($service->service_perfdata, true, 8) ?> </div>
-
-        <?= implode(' ', $this->serviceFlags($service)); ?>
-
-      <?php if ($service->service_icon_image && ! preg_match('/[\'"]/', $service->service_icon_image)): ?>
-        <?= $this->icon($this->resolveMacros($service->service_icon_image, $service)) ?>
-      <?php endif ?>
-        <?= $this->qlink(
-          $service->service_display_name,
-          $serviceLink,
-          null,
-          array('title' => sprintf(
-            $this->translate('Show detailed information for service %s on host %s'),
+        <div class="sparkline-box"><?=
+            $this->perfdata($service->service_perfdata, true, 8)
+        ?></div>
+        <div class="noicons">
+          <?php
+          $serviceQLink = $this->qlink(
             $service->service_display_name,
-            $service->host_display_name
-          ))
-        ); ?><?php if ($this->showHost): ?> on <?= $this->qlink(
-          $service->host_display_name . ($service->host_state != 0 ? ' (' . Host::getStateText($service->host_state, true) . ')' : ''),
-          $hostLink,
-          null,
-          array('title' => sprintf($this->translate('Show detailed information for host %s'), $service->host_display_name))
-        ); ?><?php endif ?><br>
-        <p class="pluginoutput"><?= $this->escape($this->ellipsis($service->service_output, 10000)); ?></p>
+            $serviceLink,
+            null,
+            array('title' => sprintf(
+              $this->translate('Show detailed information for service %s on host %s'),
+              $service->service_display_name,
+              $service->host_display_name
+            ))
+          );
+          if ($this->showHost) {
+            printf(
+              $this->translate('%s on %s'),
+              $serviceQLink,
+              $this->qlink(
+                $service->host_display_name . (
+                  $service->host_state != 0 ? ' (' . Host::getStateText($service->host_state, true) . ')' : ''
+                ),
+                $hostLink,
+                null,
+                array('title' => sprintf($this->translate('Show detailed information for host %s'), $service->host_display_name))
+              )
+            );
+          } else {
+            echo $serviceQLink;
+          }
+          ?><br>
+          <p class="pluginoutput"><?= $this->escape($this->ellipsis($service->service_output, 10000)); ?></p>
+        </div>
+        <div class="icons">
+          <?= implode(' ', $this->serviceFlags($service)); ?>
+          <?php if ($service->service_icon_image && ! preg_match('/[\'"]/', $service->service_icon_image)): ?>
+            <?= $this->icon($this->resolveMacros($service->service_icon_image, $service)) ?>
+          <?php endif ?>
+        </div>
       </td>
 <?php foreach($this->addColumns as $col): ?>
       <td><?= $this->escape($service->$col) ?></td>
