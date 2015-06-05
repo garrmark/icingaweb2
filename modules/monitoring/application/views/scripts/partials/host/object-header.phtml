@@ -9,15 +9,21 @@ use Icinga\Module\Monitoring\Object\Host;
             <?= $this->prefixedTimeSince($object->host_last_state_change, true); ?>
         </td>
         <td>
-            <strong><?= $this->escape($object->host_display_name); ?></strong>
-          <?php if ($object->host_display_name !== $object->host_name): ?>
-            <small>(<?= $this->escape($object->host_name); ?>)</small>
-          <?php endif ?>
-          <?php if ($object->host_address && $object->host_address !== $object->host_name): ?>
-            <br>
-            <?= $this->escape($object->host_address); ?>
-          <?php endif ?>
-            <?= $this->render('partials/host/statusicons.phtml'); ?>
+            <div class="clearfix">
+                <div class="pull-left">
+                    <strong><?= $this->escape($object->host_display_name); ?></strong>
+                    <?php if ($object->host_display_name !== $object->host_name): ?>
+                      <small>(<?= $this->escape($object->host_name); ?>)</small>
+                    <?php endif ?>
+                    <?php if ($object->host_address && $object->host_address !== $object->host_name): ?>
+                      <br>
+                      <?= $this->escape($object->host_address); ?>
+                    <?php endif ?>
+                </div>
+                <div class="pull-right">
+                    <?= $this->render('partials/host/statusicons.phtml'); ?>
+                </div>
+            </div>
         </td>
     </tr>
 </table>

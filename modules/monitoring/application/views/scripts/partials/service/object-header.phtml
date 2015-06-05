@@ -10,15 +10,21 @@ use Icinga\Module\Monitoring\Object\Service;
             <?= $this->prefixedTimeSince($object->host_last_state_change, true); ?>
         </td>
         <td>
-            <strong><?= $this->escape($object->host_display_name); ?></strong>
-          <?php if ($object->host_display_name !== $object->host_name): ?>
-            <small>(<?= $this->escape($object->host_name); ?>)</small>
-          <?php endif ?>
-          <?php if ($object->host_address && $object->host_address !== $object->host_name): ?>
-            <br>
-            <?= $this->escape($object->host_address); ?>
-          <?php endif ?>
-            <?= $this->render('partials/host/statusicons.phtml'); ?>
+            <div class="clearfix">
+                <div class="pull-left">
+                    <strong><?= $this->escape($object->host_display_name); ?></strong>
+                    <?php if ($object->host_display_name !== $object->host_name): ?>
+                      <small>(<?= $this->escape($object->host_name); ?>)</small>
+                    <?php endif ?>
+                    <?php if ($object->host_address && $object->host_address !== $object->host_name): ?>
+                      <br>
+                      <?= $this->escape($object->host_address); ?>
+                    <?php endif ?>
+                </div>
+                <div class="pull-right">
+                    <?= $this->render('partials/host/statusicons.phtml'); ?>
+                </div>
+            </div>
         </td>
     </tr>
     <tr class="state <?= Service::getStateText($object->service_state); ?><?= $object->service_handled ? ' handled' : ''; ?>">
@@ -27,11 +33,17 @@ use Icinga\Module\Monitoring\Object\Service;
             <?= $this->prefixedTimeSince($object->service_last_state_change, true); ?>
         </td>
         <td>
-            <strong><?= $this->translate('Service'); ?>: <?= $this->escape($object->service_display_name); ?></strong>
-          <?php if ($object->service_display_name !== $object->service_description): ?>
-            <small>(<?= $this->escape($object->service_description); ?>)</small>
-          <?php endif ?>
-            <?= $this->render('partials/service/statusicons.phtml'); ?>
+            <div class="clearfix">
+                <div class="pull-left">
+                    <strong><?= $this->translate('Service'); ?>: <?= $this->escape($object->service_display_name); ?></strong>
+                    <?php if ($object->service_display_name !== $object->service_description): ?>
+                      <small>(<?= $this->escape($object->service_description); ?>)</small>
+                    <?php endif ?>
+                </div>
+                <div class="pull-right">
+                    <?= $this->render('partials/service/statusicons.phtml'); ?>
+                </div>
+            </div>
         </td>
     </tr>
 </table>
