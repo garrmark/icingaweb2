@@ -61,6 +61,22 @@ img.icon {
   margin: 1em;
 }
 
+.clearfix {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.pull-left {
+  float: left;
+}
+
 .pull-right {
   float: right;
 }

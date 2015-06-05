@@ -52,49 +52,51 @@ if (count($hosts) === 0) {
 
       <!-- Host / Status / Output -->
       <td>
-        <div class="noicons">
-        <?= $this->qlink(
-          $host->host_display_name,
-          $hostLink,
-          null,
-          array(
-            'title' => sprintf($this->translate('Show detailed information for host %s'), $host->host_display_name)
-          )
-        ); ?>
-        <?php if (isset($host->host_unhandled_services) && $host->host_unhandled_services > 0): ?>
-        <span> (<?= $this->qlink(
-          sprintf(
-            $this->translatePlural('%u unhandled service', '%u unhandled services', $host->host_unhandled_services),
-            $host->host_unhandled_services
-          ),
-          'monitoring/show/services',
-          array(
-            'host'               => $host->host_name,
-            'service_problem'    => 1,
-            'service_handled'    => 0
-           ),
-          array(
-            'style' => 'font-weight: normal',
-            'title' => sprintf(
-              $this->translatePlural(
-                'List %s unhandled service problem on host %s',
-                'List %s unhandled service problems on host %s',
+        <div class="clearfix">
+          <div class="pull-left">
+            <?= $this->qlink(
+              $host->host_display_name,
+              $hostLink,
+              null,
+              array(
+                'title' => sprintf($this->translate('Show detailed information for host %s'), $host->host_display_name)
+              )
+            ); ?>
+            <?php if (isset($host->host_unhandled_services) && $host->host_unhandled_services > 0): ?>
+            <span> (<?= $this->qlink(
+              sprintf(
+                $this->translatePlural('%u unhandled service', '%u unhandled services', $host->host_unhandled_services),
                 $host->host_unhandled_services
               ),
-              $host->host_unhandled_services,
-              $host->host_name
-            )
-          )
-        ) ?>)</span>
-        <?php endif ?>
+              'monitoring/show/services',
+              array(
+                'host'               => $host->host_name,
+                'service_problem'    => 1,
+                'service_handled'    => 0
+               ),
+              array(
+                'style' => 'font-weight: normal',
+                'title' => sprintf(
+                  $this->translatePlural(
+                    'List %s unhandled service problem on host %s',
+                    'List %s unhandled service problems on host %s',
+                    $host->host_unhandled_services
+                  ),
+                  $host->host_unhandled_services,
+                  $host->host_name
+                )
+              )
+            ) ?>)</span>
+            <?php endif ?>
+          </div>
+          <div class="pull-right">
+            <?php if ($host->host_icon_image && ! preg_match('/[\'"]/', $host->host_icon_image)) {
+              echo $this->icon($this->resolveMacros($host->host_icon_image, $host));
+            } ?>
+            <?= implode(' ', $this->hostFlags($host)) ?>
+          </div>
+        </div>
         <p class="pluginoutput"><?= $this->escape($this->ellipsis($host->host_output, 10000)) ?></p>
-        </div>
-        <div class="icons">
-          <?php if ($host->host_icon_image && ! preg_match('/[\'"]/', $host->host_icon_image)) {
-            echo $this->icon($this->resolveMacros($host->host_icon_image, $host));
-          } ?>
-          <?= implode(' ', $this->hostFlags($host)) ?>
-        </div>
       </td>
       <?php foreach($this->addColumns as $col): ?>
       <td><?= $this->escape($host->$col) ?></td>
