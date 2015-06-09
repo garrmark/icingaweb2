@@ -24,6 +24,7 @@ See [here](installation#installation) for more information about the installatio
 ## <a id="about-configuration"></a> Configuration
 
 Icinga Web 2 can be configured via the user interface and .ini files.
+(Their path is also configurable.)
 
 See [here](configuration#configuration) for more information about the configuration.
 
